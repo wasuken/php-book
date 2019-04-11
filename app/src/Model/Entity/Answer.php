@@ -2,7 +2,7 @@
 
 namespace App\Model\Entity;
 
-use Cake\ORM\ENtity;
+use Cake\ORM\Entity;
 
 /**
    Answer Entity
