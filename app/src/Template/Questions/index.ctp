@@ -18,6 +18,10 @@
 	<p class="card-text"><?= nl2br(h($question->body)) ?></p>
 	<p class="card-subtitle mb-2 text-muted">
 	  <small><?= h($question->created) ?></small>
+	  <small>
+		  <i class="fas fa-comment-dots"></i>
+		  <?= $this->Number->format($question->answered_count)?>
+	  </small>
 	</p>
 	<?= $this->Html->link('詳細へ', ['action' => 'view', $question->id], ['class' => 'card-link'])?>
 	<?= $this->Form->postLink('削除する', ['action' => 'delete', $question->id], ['confirm' => '質問を削除します。よろしいですか？'], ['class' => 'card-link']) ?>

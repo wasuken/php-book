@@ -22,7 +22,7 @@ class QuestionsController extends AppController
     public function index()
     {
         // ここに処理を書いていく。
-        $questions = $this->paginate($this->Questions->find(), [
+        $questions = $this->paginate($this->Questions->findQuestionWithAnsweredCount(), [
             'order' => ['Questions.id' => 'DESC']
         ]);
         $this->set(compact('questions'));
