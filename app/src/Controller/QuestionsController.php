@@ -13,6 +13,7 @@ class QuestionsController extends AppController
     public function initialize()
     {
         parent::initialize();
+        $this->loadModel('Answers');
     }
     /**
        質問画面一覧
@@ -50,5 +51,17 @@ class QuestionsController extends AppController
             $this->Flash->error('質問の投稿に失敗しました。');
         }
         $this->set(compact('question'));
+    }
+    public function view(int $id)
+    {
+        $question = $this->Questions->get($id);
+        $answers = $this
+                 ->Answers
+                 ->find()
+                 ->where(['Answers.question_id' => $id])
+                 ->orderAsc('Answers.id')
+                 ->all();
+
+        $this->set(compact('question', 'answers'));
     }
 }
