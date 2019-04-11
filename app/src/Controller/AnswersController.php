@@ -44,4 +44,24 @@ class AnswersController extends AppController
                                 'action'=>'view',
                                 $answer->question_id]);
     }
+    /**
+       回答削除処理
+
+       @params int $id 回答id
+       @return \Cake\Http\Response|null 回答削除後に質問詳細が面へ遷移する。
+     **/
+    public function delete(int $id)
+    {
+        $answer = $this->Answers->get($id);
+        $questionId = $answer->question_id;
+
+        if($this->Answers->delete($answer)){
+            $this->Flash->success('回答を削除しました。');
+        }else{
+            $this->Flash->error('回答の削除に失敗しました。');
+        }
+        return $this->redirect(['controller'=>'Questions',
+                                'action'=>'view',
+                                $questionId]);
+    }
 }
