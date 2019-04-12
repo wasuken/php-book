@@ -12,7 +12,7 @@
   <div class="card-body">
 	<h5 class="card-title">
 	  <i class="fas fa-user-circle"></i>
-	  <?= 'たろう' // @TODO ユーザ管理昨日実相寺に修正する
+	  <?= h($question->user->nickname)
 	   ?>
 	</h5>
 	<p class="card-text"><?= nl2br(h($question->body)) ?></p>
@@ -24,7 +24,9 @@
 	  </small>
 	</p>
 	<?= $this->Html->link('詳細へ', ['action' => 'view', $question->id], ['class' => 'card-link'])?>
-	<?= $this->Form->postLink('削除する', ['action' => 'delete', $question->id], ['confirm' => '質問を削除します。よろしいですか？'], ['class' => 'card-link']) ?>
+	<?php if($this->request->getSession()->read('Auth.User.id') === $question->user_id): ?>
+		<?= $this->Form->postLink('削除する', ['action' => 'delete', $question->id], ['confirm' => '質問を削除します。よろしいですか？'], ['class' => 'card-link']) ?>
+	<?php endif; ?>
   </div>
 </div>
 <?php endforeach; ?>

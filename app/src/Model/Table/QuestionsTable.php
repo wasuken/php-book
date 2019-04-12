@@ -26,6 +26,10 @@ class QuestionsTable extends Table
         $this->hasMany('Answers', [
             'foreignKey' => 'question_id'
         ]);
+        $this->belongsTo('Users',[
+            'foreignkey'=>'user_id',
+            'joinType'=>'INNER'
+        ]);
     }
     /**
        回答つきの質問一覧を取得する。

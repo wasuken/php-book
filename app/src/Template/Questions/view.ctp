@@ -7,7 +7,7 @@
 		<div class="card-body">
 			<h5 class="card-title">
 				<i class="fas fa-user-circle"></i>
-				<?= 'たろう' // @TODO ユーザ管理機能実相時に修正する。
+				<?= h($question->user->nickname)
 				?>
 			</h5>
 			<p class="card-text">
@@ -43,7 +43,7 @@
 				<div class="card-body">
 					<h5 class="card-title">
 						<i class="fas fa-user-circle"></i>
-						<?= 'じろう' //@TODO ユーザ管理機能実装時に修正する。
+						<?= h($answer->user->nickname)
 						?>
 					</h5>
 					<p class="card-text"><?= nl2br(h($answer->body))?></p>
@@ -59,20 +59,24 @@
 
 <section class="answer-post mb-5">
 	<h2 class="mb-3"><i class="fas fa-comment-dots"></i>回答する</h2>
-	<?php if($answers->count() >= 100): ?>
-		<p class="text-center">回答数が上限に達しているためこれ以上は回答することができません。</p>
-	<?php else:?>
-		<?= $this->Form->create($newAnswer, ['url' => '/answers/add'])?>
-		<?php
-		echo $this->Form->control('body',[
-			'type' => 'textarea',
-			'label' => false,
-			'value' => '',
-			'maxLength' => 200
-		]);
-		echo $this->Form->hidden('question_id', ['value' =>$question->id]);
-		?>
-		<?= $this->Form->button('投稿する', ['class' => 'btn btn-warning']) ?>
-		<?= $this->Form->end() ?>
-	<?php endif;?>
+	<?php if($this->request->getSession()->read('Auth.User.id')): ?>
+		<?php if($answers->count() >= \App\Controller\AnswersController::ANSWER_UPPER_LIMIT): ?>
+			<p class="text-center">回答数が上限に達しているためこれ以上は回答することができません。</p>
+		<?php else:?>
+			<?= $this->Form->create($newAnswer, ['url'=>'/answer/add'])?>
+			<?php
+			echo $this->Form->control('body',[
+				'type'=>'textarea',
+				'label'=>false,
+				'value'=>'',
+				'maxLength'=>200
+			]);
+			echo $this->Form->hidden('question_id',['value'=>$question->id]);
+			?>
+			<?= $this->Form->button('投稿する', ['class'=>'btn btn-warning'])?>
+			<?= $this->Form->end() ?>
+		<?php endif;?>
+	<?php else: ?>
+		<p>回答をするには<?= $this->Html->link('ログイン', ['controller'=>'Login','action'=>'index'])?>が必要です。</p>
+	<?php endif; ?>
 </section>

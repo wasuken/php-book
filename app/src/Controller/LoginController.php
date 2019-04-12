@@ -7,7 +7,7 @@ class LoginController extends AppController
 {
     public function index()
     {
-        if($this->Auth->isAuthorized()){
+        if($this->Auth->user()){
             return $this->redirect($this->Auth->redirectUrl());
         }
 

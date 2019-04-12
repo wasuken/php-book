@@ -29,6 +29,10 @@ class AnswersTable extends Table
             'foreignKey' => 'question_id',
             'joinType' => 'INNER'
         ]);
+        $this->belongsTo('Users',[
+            'foreignkey'=>'user_id',
+            'joinType'=>'INNER'
+        ]);
     }
     /**
        バリデーションルールの定義
